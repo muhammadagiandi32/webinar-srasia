@@ -107,7 +107,7 @@ class WebminarController extends Controller
             $webminar->company  = $request->company;
             $webminar->position = $request->position;
             $webminar->number_phone = $request->number_phone;
-            $webminar->day = $request->day;
+            $webminar->day = 'day1';
 
             $webminar->save();
             Mail::to($email)->send(new Webinar($email));
