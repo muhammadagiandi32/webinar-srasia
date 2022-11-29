@@ -38,10 +38,10 @@
                         <!--begin::Card body-->
                         <div class="card-body pt-5">
                             <!--begin::Form-->
-                            <form enctype="multipart/form-data" id="kt_ecommerce_settings_general_form"
-                                data-id="id_form" method="POST" class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                action="{{ url( '/regis/ppdb ') }}">
-                                <input type="hidden" name="id_status" value="1">
+                            <form id="kt_ecommerce_settings_general_form" data-id="id_form" method="POST"
+                                class="form fv-plugins-bootstrap5 fv-plugins-framework"
+                                action="{{ url( '/post-register ') }}">
+                                {{-- <input type="hidden" name="id_status" value="1"> --}}
                                 {{-- <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                                     <!--begin::Col-->
                                     <div class="col">
@@ -340,11 +340,11 @@
                                     </label>
                                     <div class="checkbox-inline">
                                         <label class="checkbox checkbox-lg">
-                                            <input type="checkbox" name="Checkboxes3_1">
+                                            <input type="checkbox" name="day[]">
                                             <span></span>Day 1 (December 9th, 2022): Sustainability Report? What A Hurly
                                             Burly!</label>
                                         <label class="checkbox checkbox-lg">
-                                            <input type="checkbox" name="Checkboxes3_1">
+                                            <input type="checkbox" name="day[]">
                                             <span></span>Day 2 (December 16th, 2022): Assurance: Exploring the
                                             Terrence</label>
                                     </div>
@@ -507,46 +507,55 @@
         });
         $("#kt_ecommerce_settings_general_form").on('submit',function (event) {
             event.preventDefault();
-
-            var files = $('#avatar')[0].files;
+            swal.fire({
+                title:"", 
+                text:"Loading...",
+                icon: "https://www.boasnotas.com/img/loading2.gif",
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                timer: 3000,
+                //icon: "success"
+            });
+            // var files = $('#avatar')[0].files;
             // var formData = new FormData($('#kt_ecommerce_settings_general_form'));
-            var form = this;
+            // var form = this;
             // formData.append('file',files[0]);
             // var id_form = $('#kt_ecommerce_settings_general_form');
 
             $.ajax({
                 type:'POST',
-                url:'/regis/ppdb ',
+                url:'post-register',
                 headers: { 'CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 datatType : 'json',
                 processData: false,
                 contentType: false,
-                data: new FormData(form),
-                beforeSend:function(){
-                    $(document).find('span.text-danger').text('');
+                data: new FormData(this),
+                // beforeSend:function(){
+                //     $(document).find('span.text-danger').text('');
                     
-                },
+                // },
                 success: function(data)
                 {
                     console.log(data);
-                    if(data.status == 0){
-                        $.each(data.error, function(errorf, val){
-                            console.log(val);
-                            // $('span.'+errorf+'_error').text(val[0])
-                            Swal.fire({
-                                icon: 'error',
-                                title: '<b>ERROR<b>',
-                                html: '<b>'+errorf+'</b><b>'+val[0]+'</b>'
-                            })
-                        })
-                    }else{
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Conglatulaions',
-                            text: 'Your Data hasben progres verivication...'
-                        });
-                        $("form").trigger("reset");
-                    }
+                    // if(data.status == 0){
+                    //     $.each(data.error, function(errorf, val){
+                    //         console.log(val);
+                    //         // $('span.'+errorf+'_error').text(val[0])
+                    //         Swal.fire({
+                    //             icon: 'error',
+                    //             title: '<b>ERROR<b>',
+                    //             html: '<b>'+errorf+'</b><b>'+val[0]+'</b>'
+                    //         })
+                    //     })
+                    // }else{
+                    //     Swal.fire({
+                    //         icon: 'success',
+                    //         title: 'Conglatulaions',
+                    //         text: 'Your Data hasben progres verivication...'
+                    //     });
+                    //     $("form").trigger("reset");
+                    // }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     console.log(xhr);

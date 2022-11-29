@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\WebminarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pages.register');
 });
+
+// Route::get('/', [Controller::class, 'index']);
+Route::resource('/webinar', WebminarController::class);
+
+Route::post('/post-register', [WebminarController::class, 'post']);
